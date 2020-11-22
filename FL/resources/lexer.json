@@ -1,0 +1,34 @@
+{
+  "Keyword": {
+    "path": "/lexer/keyword.json",
+    "priority": 5
+  },
+  "Identifier": {
+    "path": "/lexer/id.json",
+    "priority": 2
+  },
+  "Bool": {
+    "path": "/lexer/bool.json",
+    "priority": 4
+  },
+  "Integer": {
+    "path": "/lexer/integer.json",
+    "priority": 4
+  },
+  "Double": {
+    "path": "/lexer/real.json",
+    "priority": 4
+  },
+  "Operation": {
+    "path": "/lexer/operation.json",
+    "priority": 3
+  },
+  "Whitespace": {
+    "path": "/lexer/whitespace.json",
+    "priority": 0
+  },
+  "Simbols": {
+    "path": "/lexer/simbols.json",
+    "priority": 0
+  }
+}
