@@ -30,8 +30,6 @@ namespace FL
                 }
             }
 
-
-
             Console.WriteLine(LexerService.checkIntP(".")); // 0, false
             Console.WriteLine(LexerService.checkIntP(".1")); // 2, true
             Console.WriteLine(LexerService.checkIntP("123")); // 3, true
@@ -46,7 +44,6 @@ namespace FL
             Console.WriteLine(LexerService.checkIntP("a123.123", 1)); // 7, true
             Console.WriteLine(LexerService.checkIntP("a123.123", 4)); // 4, true
             Console.WriteLine(LexerService.checkIntP("a123.123", 5)); // 3, true
-
             Console.WriteLine();
 
             string textProgram = File.ReadAllText("C:/Users/kapli/source/repos/FL/FL/resources/input.txt");

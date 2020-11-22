@@ -27,9 +27,9 @@ namespace FL.Service
             }
             return listLexers;
         }
-        static Lexer getLexerInt()
+        static Lexer getOneLexer(string path)
         {
-            string jsonItem = File.ReadAllText("C:/Users/kapli/source/repos/FL/FL/resources/lexer/real.json");
+            string jsonItem = File.ReadAllText(path);
             List<Lexer> list = LexerDeserializer.Deserialize(jsonItem, 0, "id");
 
             return list[0];
@@ -38,7 +38,8 @@ namespace FL.Service
         public static KeyValuePair<int, bool> checkInt(string text)
         {
             bool res = false;
-            Lexer automat = getLexerInt();
+            string path = "C:/Users/kapli/source/repos/FL/FL/resources/lexer/real.json";
+            Lexer automat = getOneLexer(path);
             string state = automat.start[0];
             int j=-1;            
 
@@ -103,18 +104,27 @@ namespace FL.Service
             }
         }
 
-        static object[] checkProgramPortion(string text)
+        public static object[] checkProgramPortion(string text)
         {
             List<Lexer> automats = getLexer();
             automats.Sort();
             bool res = false;
             string type = "";
             int j = -1;
-
-
+            int jOld = j;
+            string typeOld = type;
             foreach (Lexer automat in automats)
             {
-                if (res) break;
+                if (j > jOld)
+                {
+                    jOld = j;
+                    typeOld = type;
+                }
+                else
+                    if (res) 
+                    break;
+                jOld = j;
+                typeOld = type; 
                 string state = automat.start[0];
 
                 for (int i = 0; i < text.Length; i++)
@@ -163,7 +173,7 @@ namespace FL.Service
 
                 }
             }
-            return new object[3] { j, res, type };
+            return new object[3] { jOld==-1?j:jOld, res, typeOld == "" ? type : typeOld };
         }
 
 
@@ -171,25 +181,14 @@ namespace FL.Service
         {
             List<string> result = new List<string>();
             int i = 0;
-            object[] resOld = new object[3];
-            string textOld = text;
             while (i < text.Length)
             {
-                textOld = text;
                 text = text.Substring(i);
                 object[] res =  checkProgramPortion(text);
                 i = (int)res[0]+1;
-
-                if((string) resOld[2] == "Integer" && (string) res[2] == "Double")
-                {
-                    result.RemoveAt(result.Count - 1);
-                    result.Add(textOld.Substring(0, (int)resOld[0] + 1) + text.Substring(0, i) + "\t<--->\t" + (string)res[2]);                    
-                }
-                   
-                else result.Add(text.Substring(0,i).Replace("\n", "\\n").Replace("\r", "\\r") + "\t<--->\t" + (string)res[2]);
-                resOld = res;
+                result.Add(text.Substring(0,i).Replace("\n", "\\n").Replace("\r", "\\r") + "\t<--->\t" + (string)res[2]);
             }
-            return string.Join("\n", result); ;
+            return string.Join("\n", result); 
         }
     }
 }
